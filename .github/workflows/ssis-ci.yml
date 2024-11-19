@@ -1,0 +1,29 @@
+name: SSIS CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install .NET Framework Developer Pack
+      run: |
+        choco install netfx-4.8-devpack -y
+
+    - name: Install SQL Server Data Tools (SSDT)
+      run: |
+        choco install sql-server-data-tools -y
+
+    - name: Build SSIS Project
+      run: |
+        msbuild path/to/your/ssis/project.dtproj /p:Configuration=Release /p:Platform="Any CPU"
